@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import { MobileTopbar } from '@/components/HeroPanel'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'motion/react'
+import { AppTopbar } from '@/components/AppTopbar'
+import { PageTransition } from '@/components/PageTransition'
 import { AppSidebar } from '@/components/Sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { seedOfflineContent } from '@/lib/contentStore'
-import { PlaceholderPage } from '@/pages/PlaceholderPage'
+import { AboutPage } from '@/pages/AboutPage'
 import { PrepareHomePage } from '@/pages/PrepareHomePage'
 import {
   KeyConceptsPage,
@@ -15,6 +17,8 @@ import {
 import { StrandOverviewPage } from '@/pages/StrandOverviewPage'
 
 function App() {
+  const location = useLocation()
+
   useEffect(() => {
     seedOfflineContent().catch((error: unknown) => {
       console.error('Local content setup failed', error)
@@ -27,53 +31,22 @@ function App() {
 
       <SidebarInset className="min-w-0 bg-transparent md:rounded-lg md:border md:border-emerald-950/10 dark:md:border-white/10 md:bg-white/50 dark:md:bg-white/5 md:shadow-[0_24px_60px_rgba(14,31,22,0.12)] dark:md:shadow-[0_24px_60px_rgba(0,0,0,0.3)]">
         <div className="grid w-full max-w-[1500px] gap-3 p-3 sm:gap-5 sm:p-5 lg:p-7">
-          <MobileTopbar />
+          <AppTopbar />
 
-          <Routes>
-            <Route index element={<PrepareHomePage />} />
-            <Route path="strands/cell-biology" element={<StrandOverviewPage />} />
-            <Route path="strands/cell-biology/understand" element={<UnderstandPage />} />
-            <Route path="strands/cell-biology/key-concepts" element={<KeyConceptsPage />} />
-            <Route path="strands/cell-biology/lesson-guide" element={<LessonGuidePage />} />
-            <Route path="strands/cell-biology/quick-checks" element={<QuickChecksPage />} />
-            <Route
-              path="preparations"
-              element={
-                <PlaceholderPage
-                  title="My Preparations"
-                  description="Your saved strand preparations will appear here."
-                />
-              }
-            />
-            <Route
-              path="downloaded"
-              element={
-                <PlaceholderPage
-                  title="Saved Lessons"
-                  description="Lessons you save for later will appear here."
-                />
-              }
-            />
-            <Route
-              path="settings"
-              element={
-                <PlaceholderPage
-                  title="Settings"
-                  description="Manage app preferences and classroom access settings here."
-                />
-              }
-            />
-            <Route
-              path="about"
-              element={
-                <PlaceholderPage
-                  title="About Elimu"
-                  description="Elimu is teacher-only preparation support. It does not collect learner names, learner work, or learner accounts."
-                />
-              }
-            />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <AnimatePresence mode="wait">
+            <PageTransition className="grid gap-3 sm:gap-5" key={location.pathname}>
+              <Routes location={location}>
+                <Route index element={<PrepareHomePage />} />
+                <Route path="strands/:strandId" element={<StrandOverviewPage />} />
+                <Route path="strands/:strandId/understand" element={<UnderstandPage />} />
+                <Route path="strands/:strandId/key-concepts" element={<KeyConceptsPage />} />
+                <Route path="strands/:strandId/lesson-guide" element={<LessonGuidePage />} />
+                <Route path="strands/:strandId/quick-checks" element={<QuickChecksPage />} />
+                <Route path="about" element={<AboutPage />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </PageTransition>
+          </AnimatePresence>
         </div>
       </SidebarInset>
     </SidebarProvider>

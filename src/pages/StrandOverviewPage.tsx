@@ -1,21 +1,22 @@
 import { useNavigate } from 'react-router-dom'
-import { GuidePanel, type PrepStep } from '@/components/GuidePanel'
+import { strandPath } from '@/data/preparation'
+import { useStrandPack } from '@/hooks/use-strand-pack'
+import { GuidePanel } from '@/components/GuidePanel'
 import { HeroPanel } from '@/components/HeroPanel'
-
-const routeByStep: Record<PrepStep, string> = {
-  understand: '/strands/cell-biology/understand',
-  concepts: '/strands/cell-biology/key-concepts',
-  lesson: '/strands/cell-biology/lesson-guide',
-  checks: '/strands/cell-biology/quick-checks',
-}
+import { StrandMissingPage } from '@/pages/AboutPage'
 
 export function StrandOverviewPage() {
   const navigate = useNavigate()
+  const pack = useStrandPack()
+
+  if (!pack) {
+    return <StrandMissingPage />
+  }
 
   return (
     <>
-      <HeroPanel />
-      <GuidePanel onSelect={(step) => navigate(routeByStep[step])} />
+      <HeroPanel pack={pack} />
+      <GuidePanel onSelect={(step) => navigate(strandPath(pack.id, step))} />
     </>
   )
 }

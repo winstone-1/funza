@@ -2,12 +2,13 @@ import { ArrowRight, FileCheck2, GraduationCap, Leaf } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
   defaultGradeId,
-  defaultStrandId,
   defaultSubjectId,
   findGrade,
   findStrand,
   findSubject,
 } from "@/data/preparation";
+import { defaultStrandId } from "@/data/strands";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -35,6 +36,7 @@ const subjectItems = subjects.map(({ id, title }) => ({
 }));
 
 export function SetupPanel({ onStart }: SetupPanelProps) {
+  const { t } = useI18n();
   const [subjectId, setSubjectId] = useState<string | null>(defaultSubjectId);
   const [strandId, setStrandId] = useState<string | null>(defaultStrandId);
 
@@ -55,20 +57,20 @@ export function SetupPanel({ onStart }: SetupPanelProps) {
     [subjectId],
   );
 
-  const canStart = Boolean(subjectId && strandId && strand?.available);
+  const canStart = Boolean(subjectId && strandId && strand);
 
   return (
-    <article className="rounded-lg border border-emerald-950/10 bg-white/50 p-5 shadow-[0_14px_36px_rgba(28,40,29,0.08)] dark:bg-white/5 dark:border-white/10 sm:p-6 backdrop-blur-sm">
+    <article className="rounded-lg border border-emerald-950/10 bg-white/50 p-5 shadow-[0_14px_36px_rgba(28,40,29,0.08)] backdrop-blur-sm dark:bg-white/5 dark:border-white/10 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-2xl font-black text-stone-950 dark:text-white">
-            Good morning, Mwalimu
+            {t("setup.greeting")}
           </h2>
           <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
-            What are you preparing to teach today?
+            {t("setup.prompt")}
           </p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50/50 px-3 py-1.5 text-xs font-bold text-emerald-900 dark:bg-emerald-900/30 dark:text-emerald-300 backdrop-blur-sm">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50/50 px-3 py-1.5 text-xs font-bold text-emerald-900 backdrop-blur-sm dark:bg-emerald-900/30 dark:text-emerald-300">
           <GraduationCap size={14} />
           {grade?.title ?? "Grade 10"}
         </span>
@@ -88,17 +90,17 @@ export function SetupPanel({ onStart }: SetupPanelProps) {
             setStrandId(null);
           }}
         >
-          <SelectTrigger className={triggerClass} aria-label="Subject">
+          <SelectTrigger className={triggerClass} aria-label={t("setup.subject")}>
             <span className="grid size-9 place-items-center rounded-md bg-emerald-50/50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
               {subject ? <subject.icon size={18} /> : <Leaf size={18} />}
             </span>
             <span className="grid min-w-0 gap-0.5">
               <small className="text-xs font-medium text-stone-500 dark:text-stone-400">
-                Subject
+                {t("setup.subject")}
               </small>
               <SelectValue
                 className="truncate text-[0.95rem] font-bold text-stone-950 data-placeholder:font-medium data-placeholder:text-stone-400 dark:text-white"
-                placeholder="Choose a subject"
+                placeholder={t("setup.subjectPlaceholder")}
               />
             </span>
           </SelectTrigger>
@@ -127,18 +129,20 @@ export function SetupPanel({ onStart }: SetupPanelProps) {
             }
           }}
         >
-          <SelectTrigger className={triggerClass} aria-label="Strand">
+          <SelectTrigger className={triggerClass} aria-label={t("setup.strand")}>
             <span className="grid size-9 place-items-center rounded-md bg-emerald-50/50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
               <Leaf size={18} />
             </span>
             <span className="grid min-w-0 gap-0.5">
               <small className="text-xs font-medium text-stone-500 dark:text-stone-400">
-                Strand
+                {t("setup.strand")}
               </small>
               <SelectValue
                 className="truncate text-[0.95rem] font-bold text-stone-950 data-placeholder:font-medium data-placeholder:text-stone-400 dark:text-white"
                 placeholder={
-                  subjectId ? "Choose a strand" : "Choose a subject first"
+                  subjectId
+                    ? t("setup.strandPlaceholder")
+                    : t("setup.strandPlaceholderLocked")
                 }
               />
             </span>
@@ -149,24 +153,15 @@ export function SetupPanel({ onStart }: SetupPanelProps) {
             alignItemWithTrigger={false}
             className="p-1"
           >
-            {strands.map(({ available, id, title }) => (
-              <SelectItem
-                key={id}
-                value={id}
-                disabled={!available}
-                className="py-2"
-              >
+            {strands.map(({ id, title }) => (
+              <SelectItem key={id} value={id} className="py-2">
                 {title}
-                {available ? null : (
-                  <small className="ml-auto text-xs text-stone-500">
-                    Coming soon
-                  </small>
-                )}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
+
       <RippleEffect className="w-full rounded-lg">
         <Button
           className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-emerald-700 font-extrabold text-white shadow-inner hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-700"
@@ -178,20 +173,25 @@ export function SetupPanel({ onStart }: SetupPanelProps) {
             }
           }}
         >
-          Start preparing
+          {t("setup.start")}
           <ArrowRight size={18} />
         </Button>
       </RippleEffect>
 
-      <div className="mt-5 grid grid-cols-[20px_1fr] gap-x-2 gap-y-1 rounded-lg bg-emerald-50/50 p-4 text-sm text-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-100/80 backdrop-blur-sm">
+      <div className="mt-5 grid grid-cols-[20px_1fr] gap-x-2 gap-y-1 rounded-lg bg-emerald-50/50 p-4 text-sm text-emerald-900 backdrop-blur-sm dark:bg-emerald-900/20 dark:text-emerald-100/80">
         <FileCheck2 size={18} />
         <span>
           {grade && subject
-            ? `Prepared from the ${grade.title} ${subject.title} curriculum`
-            : "Pick a subject to see the curriculum source"}
+            ? t("setup.preparedFrom", {
+                grade: grade.title,
+                subject: subject.title,
+              })
+            : t("setup.subjectPlaceholder")}
         </span>
         <small className="col-start-2 text-xs text-stone-800 dark:text-stone-400">
-          {strand ? `${strand.title} strand` : "No strand selected yet"}
+          {strand
+            ? t("setup.strandSuffix", { strand: strand.title })
+            : t("setup.noStrand")}
         </small>
       </div>
     </article>

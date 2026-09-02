@@ -1,4 +1,4 @@
-const CACHE_NAME = 'elimu-mwalimu-v1'
+const CACHE_NAME = 'funza-v2'
 const APP_SHELL = ['/', '/index.html', '/manifest.webmanifest', '/favicon.svg']
 
 self.addEventListener('install', (event) => {
@@ -23,12 +23,21 @@ self.addEventListener('fetch', (event) => {
   const request = event.request
   const url = new URL(request.url)
 
+  // Supabase and other cross-origin calls fall through to the network; the app
+  // keeps its own copy of that content in localStorage.
   if (request.method !== 'GET' || url.origin !== self.location.origin) {
     return
   }
 
+  // Every route is client-side, so any navigation can be answered by the shell.
   if (request.mode === 'navigate') {
-    event.respondWith(fetch(request).catch(() => caches.match('/index.html')))
+    event.respondWith(
+      fetch(request).catch(async () => {
+        const cache = await caches.open(CACHE_NAME)
+
+        return (await cache.match('/index.html')) ?? (await cache.match('/')) ?? Response.error()
+      }),
+    )
     return
   }
 
@@ -39,8 +48,12 @@ self.addEventListener('fetch', (event) => {
       }
 
       return fetch(request).then((response) => {
-        const copy = response.clone()
-        caches.open(CACHE_NAME).then((cache) => cache.put(request, copy))
+        // Hashed build assets never change, so caching them on first use is safe.
+        if (response.ok && response.type === 'basic') {
+          const copy = response.clone()
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy))
+        }
+
         return response
       })
     }),

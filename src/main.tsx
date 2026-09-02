@@ -5,15 +5,21 @@ import './index.css'
 import App from './App.tsx'
 import { TooltipProvider } from './components/ui/tooltip'
 import { ThemeProvider } from './hooks/theme-provider'
+import { I18nProvider } from './lib/i18n'
+import { registerServiceWorker } from './lib/register-sw'
+
+registerServiceWorker()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThemeProvider>
-      <BrowserRouter>
-        <TooltipProvider>
-          <App />
-        </TooltipProvider>
-      </BrowserRouter>
-    </ThemeProvider>
+    <I18nProvider>
+      <ThemeProvider>
+        <BrowserRouter>
+          <TooltipProvider>
+            <App />
+          </TooltipProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+    </I18nProvider>
   </StrictMode>,
 )

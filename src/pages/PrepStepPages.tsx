@@ -1,46 +1,70 @@
 import { useNavigate } from 'react-router-dom'
+import { strandPath } from '@/data/preparation'
+import { useStrandPack } from '@/hooks/use-strand-pack'
 import { KeyConceptsPanel } from '@/components/KeyConceptsPanel'
 import { LessonGuidePanel } from '@/components/LessonGuidePanel'
 import { QuickChecksPanel } from '@/components/QuickChecksPanel'
 import { UnderstandPanel } from '@/components/UnderstandPanel'
-
-const overviewPath = '/strands/cell-biology'
+import { StrandMissingPage } from '@/pages/AboutPage'
 
 export function UnderstandPage() {
   const navigate = useNavigate()
+  const pack = useStrandPack()
+
+  if (!pack) {
+    return <StrandMissingPage />
+  }
 
   return (
     <UnderstandPanel
-      onBack={() => navigate(overviewPath)}
-      onNext={() => navigate('/strands/cell-biology/key-concepts')}
+      pack={pack}
+      onBack={() => navigate(strandPath(pack.id))}
+      onNext={() => navigate(strandPath(pack.id, 'concepts'))}
     />
   )
 }
 
 export function KeyConceptsPage() {
   const navigate = useNavigate()
+  const pack = useStrandPack()
+
+  if (!pack) {
+    return <StrandMissingPage />
+  }
 
   return (
     <KeyConceptsPanel
-      onBack={() => navigate(overviewPath)}
-      onNext={() => navigate('/strands/cell-biology/lesson-guide')}
+      pack={pack}
+      onBack={() => navigate(strandPath(pack.id))}
+      onNext={() => navigate(strandPath(pack.id, 'lesson'))}
     />
   )
 }
 
 export function LessonGuidePage() {
   const navigate = useNavigate()
+  const pack = useStrandPack()
+
+  if (!pack) {
+    return <StrandMissingPage />
+  }
 
   return (
     <LessonGuidePanel
-      onBack={() => navigate(overviewPath)}
-      onNext={() => navigate('/strands/cell-biology/quick-checks')}
+      pack={pack}
+      onBack={() => navigate(strandPath(pack.id))}
+      onNext={() => navigate(strandPath(pack.id, 'checks'))}
     />
   )
 }
 
 export function QuickChecksPage() {
   const navigate = useNavigate()
+  const pack = useStrandPack()
 
-  return <QuickChecksPanel onBack={() => navigate(overviewPath)} onDone={() => navigate(overviewPath)} />
+  if (!pack) {
+    return <StrandMissingPage />
+  }
+
+  return <QuickChecksPanel pack={pack} onBack={() => navigate(strandPath(pack.id))} onDone={() => navigate(strandPath(pack.id))} />
 }
