@@ -92,7 +92,7 @@ For local development, put them in a `.env` file at the project root.
 
 ## Content Workflow
 
-The app is designed around teacher preparation content rather than learner-facing accounts.
+The app is designed around teacher preparation content rather than learner-facing accounts, so no learner details make it to the app.
 
 - `src/lib/contentStore.ts` seeds the current strand pack into IndexedDB for offline access.
 - `scripts/generate-content.js` reads the raw strand source from `content/raw-strand.md`, generates teacher-friendly explanations with Anthropic, and stores the result in Supabase.
