@@ -4,7 +4,11 @@
       "Bash(npx tsc *)",
       "Bash(npx oxlint *)",
       "Bash(npm run *)",
-      "Bash(node --check scripts/generate-content.js)"
+      "Bash(node --check scripts/generate-content.js)",
+      "Bash(git ls-tree *)",
+      "Bash(git add *)",
+      "Bash(git commit -q -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
