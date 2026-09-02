@@ -127,4 +127,16 @@
   html {
     @apply font-sans;
     }
+  /* Tailwind resets buttons to the default cursor; put the pointer back on
+     anything actually clickable, but not on disabled controls. */
+  a[href],
+  label:has(input:not(:disabled)),
+  summary,
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="tab"]:not([aria-disabled="true"]),
+  [role="option"]:not([data-disabled]),
+  [role="menuitem"]:not([data-disabled]) {
+    @apply cursor-pointer;
+    }
 }
