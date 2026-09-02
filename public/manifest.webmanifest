@@ -1,0 +1,18 @@
+{
+  "name": "Elimu Mwalimu",
+  "short_name": "Elimu",
+  "description": "Offline-first Grade 10 teacher preparation for one KICD-grounded strand.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8faf7",
+  "theme_color": "#003d2b",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
