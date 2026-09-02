@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RippleEffect } from "./ripple-effect";
 
 type SetupPanelProps = {
   onStart: (gradeId: string, subjectId: string, strandId: string) => void;
@@ -166,20 +167,21 @@ export function SetupPanel({ onStart }: SetupPanelProps) {
           </SelectContent>
         </Select>
       </div>
-
-      <Button
-        className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-[linear-gradient(180deg,#05865d,#006140)] font-extrabold text-white shadow-inner hover:bg-emerald-800"
-        type="button"
-        disabled={!canStart}
-        onClick={() => {
-          if (subjectId && strandId && canStart) {
-            onStart(gradeId, subjectId, strandId);
-          }
-        }}
-      >
-        Start preparing
-        <ArrowRight size={18} />
-      </Button>
+      <RippleEffect className="w-full rounded-lg">
+        <Button
+          className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-[linear-gradient(180deg,#05865d,#006140)] font-extrabold text-white shadow-inner hover:bg-emerald-800"
+          type="button"
+          disabled={!canStart}
+          onClick={() => {
+            if (subjectId && strandId && canStart) {
+              onStart(gradeId, subjectId, strandId);
+            }
+          }}
+        >
+          Start preparing
+          <ArrowRight size={18} />
+        </Button>
+      </RippleEffect>
 
       <div className="mt-5 grid grid-cols-[20px_1fr] gap-x-2 gap-y-1 rounded-lg bg-emerald-50 p-4 text-sm text-emerald-900">
         <FileCheck2 size={18} />
