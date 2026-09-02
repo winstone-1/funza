@@ -22,10 +22,10 @@ function App() {
   }, [])
 
   return (
-    <SidebarProvider className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(235,247,232,0.9),transparent_32rem),linear-gradient(135deg,#f8faf7_0%,#f7f7f4_48%,#eef5ed_100%)] p-0 text-stone-950 sm:p-4 lg:p-7">
+    <SidebarProvider className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(235,247,232,0.9),transparent_32rem),linear-gradient(135deg,#f8faf7_0%,#f7f7f4_48%,#eef5ed_100%)] p-0 text-stone-950 dark:bg-gradient-to-br dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 dark:text-white sm:p-4 lg:p-7">
       <AppSidebar />
 
-      <SidebarInset className="min-w-0 bg-transparent md:rounded-lg md:border md:border-emerald-950/10 md:bg-white/80 md:shadow-[0_24px_60px_rgba(14,31,22,0.12)]">
+      <SidebarInset className="min-w-0 bg-transparent md:rounded-lg md:border md:border-emerald-950/10 dark:md:border-white/10 md:bg-white/50 dark:md:bg-white/5 md:shadow-[0_24px_60px_rgba(14,31,22,0.12)] dark:md:shadow-[0_24px_60px_rgba(0,0,0,0.3)]">
         <div className="grid w-full max-w-[1500px] gap-3 p-3 sm:gap-5 sm:p-5 lg:p-7">
           <MobileTopbar />
 

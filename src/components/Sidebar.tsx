@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { BookOpen, LogOut, UserRound } from "lucide-react";
+import { BookOpen, LogOut, Moon, Sun, UserRound } from "lucide-react";
 import { navItems } from "@/data/preparation";
+import { useThemeContext } from "@/hooks/theme-provider";
 import { Button } from "@/components/ui/button";
 import {
   Sidebar,
@@ -19,6 +20,7 @@ const navTargets = ["/", "/preparations", "/downloaded", "/settings", "/about"];
 
 export function AppSidebar() {
   const { pathname } = useLocation();
+  const { theme, toggleTheme } = useThemeContext();
   const activeTarget = pathname.startsWith("/strands") ? "/" : pathname;
 
   return (
@@ -72,6 +74,16 @@ export function AppSidebar() {
               Grade 10 Biology
             </span>
           </div>
+
+          <Button
+            className="size-9 rounded-md bg-transparent p-0 text-white hover:bg-white/15 hover:text-white"
+            type="button"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            onClick={toggleTheme}
+          >
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </Button>
 
           <Button
             className="size-9 rounded-md bg-transparent p-0 text-white hover:bg-white/15 hover:text-white group-data-[collapsible=icon]:hidden"

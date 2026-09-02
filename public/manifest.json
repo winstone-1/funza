@@ -1,0 +1,10 @@
+{
+  "name": "Funza",
+  "short_name": "Funza",
+  "description": "Teacher-only preparation support for Grade 10 Biology.",
+  "theme_color": "#05865d",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": []
+}
