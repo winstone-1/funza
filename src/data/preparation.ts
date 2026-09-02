@@ -5,7 +5,6 @@ import {
   ClipboardList,
   Download,
   FlaskConical,
-  GraduationCap,
   HelpCircle,
   Home,
   Leaf,

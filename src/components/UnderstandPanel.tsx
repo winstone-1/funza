@@ -1,6 +1,7 @@
 import { ArrowLeft, Check, Sparkles } from 'lucide-react'
 import { strandGoals } from '@/data/preparation'
 import { Button } from '@/components/ui/button'
+import { useUnderstandContent } from '@/hooks/use-understand-content'
 
 type UnderstandPanelProps = {
   onBack: () => void
@@ -8,6 +9,8 @@ type UnderstandPanelProps = {
 }
 
 export function UnderstandPanel({ onBack, onNext }: UnderstandPanelProps) {
+  const understandText = useUnderstandContent()
+
   return (
     <article className="flex flex-col rounded-lg border border-emerald-950/10 bg-white/95 p-5 shadow-[0_14px_36px_rgba(28,40,29,0.08)] sm:p-6">
       <div className="mb-5 flex items-center justify-between gap-4">
@@ -20,7 +23,7 @@ export function UnderstandPanel({ onBack, onNext }: UnderstandPanelProps) {
 
       <p className="mb-2 text-xs font-extrabold uppercase tracking-normal text-emerald-800">In simple terms</p>
       <p className="max-w-prose rounded-lg border border-stone-200 p-4 text-sm leading-relaxed">
-        Cell biology introduces learners to the basic unit of life: the cell. It covers the structure of cells, the functions of their parts, and how cells carry out life processes in plants and animals.
+        {understandText}
       </p>
 
       <h3 className="mt-7 border-t border-stone-200 pt-4 text-sm font-extrabold uppercase">What you should be ready to explain</h3>
