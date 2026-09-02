@@ -1,16 +1,17 @@
 import type { LucideIcon } from "lucide-react";
 import {
+  Atom,
   BookOpen,
   Brain,
   ClipboardList,
   Download,
   FlaskConical,
-  GraduationCap,
   HelpCircle,
   Home,
   Leaf,
   Settings,
   ShieldCheck,
+  Sigma,
   UserRoundCheck,
 } from "lucide-react";
 
@@ -28,11 +29,90 @@ export const navItems: IconItem[] = [
   { title: "About Elimu", icon: HelpCircle },
 ];
 
-export const setupFields: IconItem[] = [
-  // { title: 'Grade 10', subtitle: 'Grade', icon: GraduationCap },
-  { title: "Biology", subtitle: "Subject", icon: FlaskConical },
-  { title: "Cell Biology", subtitle: "Strand", icon: Leaf },
+export type Strand = {
+  id: string;
+  title: string;
+  /** Strands without a prepared pack are shown but not selectable. */
+  available?: boolean;
+};
+
+export type Subject = {
+  id: string;
+  title: string;
+  icon: LucideIcon;
+  strands: Strand[];
+};
+
+export type Grade = {
+  id: string;
+  title: string;
+  subjects: Subject[];
+};
+
+export const grades: Grade[] = [
+  {
+    id: "grade-10",
+    title: "Grade 10",
+    subjects: [
+      {
+        id: "biology",
+        title: "Biology",
+        icon: FlaskConical,
+        strands: [
+          { id: "cell-biology", title: "Cell Biology", available: true },
+          { id: "nutrition", title: "Nutrition" },
+          { id: "transport", title: "Transport in Plants and Animals" },
+          { id: "gaseous-exchange", title: "Gaseous Exchange" },
+        ],
+      },
+      {
+        id: "chemistry",
+        title: "Chemistry",
+        icon: Atom,
+        strands: [
+          { id: "structure-of-the-atom", title: "Structure of the Atom" },
+          { id: "acids-bases-salts", title: "Acids, Bases and Salts" },
+          { id: "organic-chemistry", title: "Organic Chemistry" },
+        ],
+      },
+      {
+        id: "mathematics",
+        title: "Mathematics",
+        icon: Sigma,
+        strands: [
+          { id: "numbers", title: "Numbers" },
+          { id: "algebra", title: "Algebra" },
+          { id: "geometry", title: "Geometry" },
+          { id: "data-handling", title: "Data Handling and Probability" },
+        ],
+      },
+    ],
+  },
 ];
+
+export const defaultGradeId = "grade-10";
+export const defaultSubjectId = "biology";
+export const defaultStrandId = "cell-biology";
+
+export function findGrade(gradeId: string) {
+  return grades.find((grade) => grade.id === gradeId);
+}
+
+export function findSubject(gradeId: string, subjectId: string) {
+  return findGrade(gradeId)?.subjects.find(
+    (subject) => subject.id === subjectId,
+  );
+}
+
+export function findStrand(
+  gradeId: string,
+  subjectId: string,
+  strandId: string,
+) {
+  return findSubject(gradeId, subjectId)?.strands.find(
+    (strand) => strand.id === strandId,
+  );
+}
 
 export const preparationCards: IconItem[] = [
   {
