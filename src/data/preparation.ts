@@ -172,11 +172,12 @@ export const lessonSteps = [
   },
 ];
 
-export const strandGoals = [
-  "Cell structure and the main parts",
-  "Functions of cell components",
-  "Differences between plant and animal cells",
-  "How cells support life in living organisms",
+/** Learning outcomes for sub-strand 1.1, taken verbatim from content/raw-strand.md. */
+export const subStrandOutcomes = [
+  "Explain the application of Biology in everyday life",
+  "Relate fields of study in Biology to career opportunities",
+  "Illustrate the careers related to fields of study in Biology",
+  "Appreciate the importance of Biology in everyday life",
 ];
 
 export const quickChecks = [
@@ -237,6 +238,10 @@ export const strandPack = {
   subject: "Biology",
   source: "KICD Grade 10 Biology Curriculum Design",
   generatedAt: "2026-09-02T09:00:00.000Z",
+  /** Matches `strands.name` in Supabase, taken from content/raw-strand.md. */
+  curriculumStrand: "Cell Biology and Biodiversity",
+  /** The part of the strand the generated explanation actually covers. */
+  subStrand: "1.1 Introduction to Biology",
 };
 
 export const classroomAssurances = [

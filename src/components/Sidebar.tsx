@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { BookOpen, LogOut, Moon, Sun, UserRound } from "lucide-react";
+import { BookOpen, Moon, Sun, UserRound } from "lucide-react";
 import { navItems } from "@/data/preparation";
 import { useThemeContext } from "@/hooks/theme-provider";
 import { Button } from "@/components/ui/button";
@@ -83,15 +83,6 @@ export function AppSidebar() {
             onClick={toggleTheme}
           >
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-          </Button>
-
-          <Button
-            className="size-9 rounded-md bg-transparent p-0 text-white hover:bg-white/15 hover:text-white group-data-[collapsible=icon]:hidden"
-            type="button"
-            aria-label="Log out"
-            title="Log out"
-          >
-            <LogOut size={18} />
           </Button>
         </div>
       </SidebarFooter>

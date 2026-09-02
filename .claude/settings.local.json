@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npx oxlint *)",
+      "Bash(npm run *)",
+      "Bash(node --check scripts/generate-content.js)"
+    ]
+  }
+}
